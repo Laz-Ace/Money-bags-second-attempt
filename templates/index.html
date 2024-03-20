@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I got that Schmoney</title>
+</head>
+<body>
+    <h1>Portfolio overview: {{ "{:.2f}".format(spy) }}</h1>
+    <h1>Pie Chart</h1>
+    <img src="{{ url_for('static', filename='pie_chart.png') }}" alt="Pie Chart">
+</body>
+<footer>
+    <p>{{ current_date }}</p>
+</footer>
+</html>
