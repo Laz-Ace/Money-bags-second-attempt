@@ -1,6 +1,14 @@
 import yfinance as yf
 import csv
 import matplotlib.pyplot as plt
+import json
+
+from server import get_portfolio_summary
+
+def load_data_from_json(file_path):
+    with open(file_path, 'r') as json_file:
+        data = json.load(json_file)
+    return data
 
 def fetch_stock_data_to_csv(ticker, start_date, end_date, output_file):
     # Fetch stock data
@@ -35,6 +43,17 @@ def generate_pie_chart(data, labels):
     plt.tight_layout()  # Adjust layout to prevent labels from overlapping.
     
     # Save the plot to a file or directly show it.
-    plt.savefig('static/pie_chart.png')  # Save the plot as a file.
+    plt.savefig('static\pie_chart.png')  # Save the plot as a file.
     # plt.show()  # Directly show the plot (use this if you want to display it in the Flask app).
     plt.close()
+
+data = load_data_from_json('data.json')
+tickers = data['tickers']
+amounts = data['amount']
+
+portfolio = {label: value for label, value in zip(tickers, amounts)}
+
+summary = get_portfolio_summary(portfolio)
+adjusted_contribution = summary.get('Adjusted_contribution')
+
+generate_pie_chart(adjusted_contribution, tickers)

@@ -38,18 +38,14 @@ app = Flask(__name__)
 def home():
     data = load_data_from_json('data.json')
 
-    # ---------This should be done outside the main loop----------------
     tickers = data['tickers']
     amounts = data['amount']
 
-    
     portfolio = {label: value for label, value in zip(tickers, amounts)}
-    # ------------------------------------------------------------------
 
     summary = get_portfolio_summary(portfolio)
     total_value = summary.get('Total Value')
-    adjusted_contribution = summary.get('Adjusted_contribution')
-    
+
     today = date.today().strftime("%b-%d-%Y")
     return render_template("index.html", spy=total_value, current_date=today)
 
