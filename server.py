@@ -1,38 +1,16 @@
 from flask import Flask, render_template
 from datetime import date
-import yfinance as yf
+from Backend.main import get_portfolio_summary
 import json
+import requests
 
 def load_data_from_json(file_path):
     with open(file_path, 'r') as json_file:
         data = json.load(json_file)
     return data
 
-def get_portfolio_summary(portfolio):
-    total_value = 0
-    adjusted_contribution = []
-    
-    for symbol, quantity in portfolio.items():
-        # Fetch stock data from Yahoo Finance
-        stock = yf.Ticker(symbol)
-        current_price = stock.history(period='1d')['Close'].iloc[-1]
-        stock_value = current_price * quantity
-        total_value += stock_value
-        
-        # Note the total market value of every specific stock
-        adjusted_contribution.append(stock_value)
-    
-    # Calculate overall return
-    # Here you can calculate returns based on initial investment, cost basis, etc.
-    overall_return = 0  # Placeholder for demonstration
-
-    return {
-        'Total Value': total_value,
-        'Adjusted_contribution': adjusted_contribution,
-        'Overall Return': overall_return
-    }
-
 app = Flask(__name__)
+base_url = 'http://127.0.0.1:5000'
 
 @app.route('/')
 def home():

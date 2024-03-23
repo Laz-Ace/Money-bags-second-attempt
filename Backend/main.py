@@ -3,8 +3,6 @@ import csv
 import matplotlib.pyplot as plt
 import json
 
-from server import get_portfolio_summary
-
 def load_data_from_json(file_path):
     with open(file_path, 'r') as json_file:
         data = json.load(json_file)
@@ -46,6 +44,30 @@ def generate_pie_chart(data, labels):
     plt.savefig('static\pie_chart.png')  # Save the plot as a file.
     # plt.show()  # Directly show the plot (use this if you want to display it in the Flask app).
     plt.close()
+
+def get_portfolio_summary(portfolio):
+    total_value = 0
+    adjusted_contribution = []
+    
+    for symbol, quantity in portfolio.items():
+        # Fetch stock data from Yahoo Finance
+        stock = yf.Ticker(symbol)
+        current_price = stock.history(period='1d')['Close'].iloc[-1]
+        stock_value = current_price * quantity
+        total_value += stock_value
+        
+        # Note the total market value of every specific stock
+        adjusted_contribution.append(stock_value)
+    
+    # Calculate overall return
+    # Here you can calculate returns based on initial investment, cost basis, etc.
+    overall_return = 0  # Placeholder for demonstration
+
+    return {
+        'Total Value': total_value,
+        'Adjusted_contribution': adjusted_contribution,
+        'Overall Return': overall_return
+    }
 
 data = load_data_from_json('data.json')
 tickers = data['tickers']
