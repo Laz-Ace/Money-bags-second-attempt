@@ -33,3 +33,21 @@
 .account-container h3 {
     margin-top: 5px; /* Add some space above each <h3> */
 }
+
+/* static/styles.css */
+.dynamic-list {
+    /* Display list items horizontally */
+    display: flex;
+    /* Remove default list styles */
+    list-style: none;
+    /* Optional: Add space between list items */
+    gap: 10px;
+}
+
+/* Optional: Style individual list items */
+.dynamic-list li {
+    /* Add padding and background color for visual separation */
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}

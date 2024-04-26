@@ -22,9 +22,13 @@ def home():
 
     summary = get_portfolio_summary(portfolio)
     total_value = summary.get('Total Value')
-
+    dynamic_dict_data = {
+        'Checking': '----',
+        'Savings': '----',
+        'Investment': round(total_value, 2)
+    }
     today = date.today().strftime("%b-%d-%Y")
-    return render_template("index.html", spy=total_value, current_date=today)
+    return render_template("index.html", spy=total_value,  dynamic_dict=dynamic_dict_data, current_date=today)
 
 if __name__ == '__main__':
     app.run(debug=True)

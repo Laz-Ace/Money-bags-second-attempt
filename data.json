@@ -1,6 +1,6 @@
 {
-    "tickers": ["SPY", "VOO", "NDAQ", "QQQ", "AAPL",
+    "tickers": ["SPY", "IVV", "VOO", "NDAQ", "QQQ", "AAPL",
                 "MSFT", "TSLA", "META", "IRM"],
-    "amount": [10.83, 2.55, 10.98, 0.46, 6.11,
-               0.5, 5.05, 0.18, 10.38]
+    "amount": [11.13, 0.1, 2.87, 10.98, 0.92, 6.4,
+               0.55, 5.05, 0.34, 10.38]
 }
