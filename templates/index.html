@@ -25,17 +25,14 @@
                         </ul>
                     </div>
                     <div class="row">
-                        <div class="account-container">
-                            <h2>Car</h2>
-                            <h3>$----</h3>
-                        </div>
-                        <div class="account-container">
-                            <h2>House</h2>
-                            <h3>$----</h3>
-                        </div>
-                        <div class="account-container">
-                            <h2>Travel</h2>
-                            <h3>$----</h3>
+                        <ul class="dynamic-list">
+                            {% for key, value in goals.items() %}
+                                <li>
+                                    <h2>{{ key }}</h2>
+                                    <h3>$ {{ value }}</h3>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
             </div>
