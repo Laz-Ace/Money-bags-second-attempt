@@ -1,0 +1,35 @@
+.container{
+    display: flex;
+    align-items: center;
+}
+
+.progress-hub{
+    display: flex;
+    text-align: center;
+}
+
+.progress{
+    text-align: center;
+}
+
+.accounts {
+    display: flex;
+    flex-direction: column; /* Arrange titles vertically */
+    align-items: flex-start; /* Align titles to the left */
+}
+
+.row {
+    display: flex;
+}
+
+.account-container {
+    margin: 0 20px; /* Add some margin around each account container */
+}
+
+.account-container h2 {
+    margin-bottom: 5px; /* Add some space below each <h2> */
+}
+
+.account-container h3 {
+    margin-top: 5px; /* Add some space above each <h3> */
+}

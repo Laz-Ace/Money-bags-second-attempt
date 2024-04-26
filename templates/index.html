@@ -3,12 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
     <title>I got that Schmoney</title>
 </head>
 <body>
     <h1>Portfolio overview: {{ "{:.2f}".format(spy) }}</h1>
-    <h1>Pie Chart</h1>
-    <img src="{{ url_for('static', filename='pie_chart.png') }}" alt="Pie Chart">
+    <div class="container">
+        <img src="{{ url_for('static', filename='pie_chart.png') }}" alt="Data not found">
+            <div class="progress">
+                <h1>Accounts</h1>
+                
+                <div class="accounts">
+                    <div class="row">
+                        <div class="account-container">
+                            <h2>Checking</h2>
+                            <h3>$----</h3>
+                        </div>
+                        <div class="account-container">
+                            <h2>Saving</h2>
+                            <h3>$----</h3>
+                        </div>
+                        <div class="account-container">
+                            <h2>Investment</h2>
+                            <h3>$----</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="account-container">
+                            <h2>Car</h2>
+                            <h3>$----</h3>
+                        </div>
+                        <div class="account-container">
+                            <h2>House</h2>
+                            <h3>$----</h3>
+                        </div>
+                        <div class="account-container">
+                            <h2>Travel</h2>
+                            <h3>$----</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <footer>
     <p>{{ current_date }}</p>

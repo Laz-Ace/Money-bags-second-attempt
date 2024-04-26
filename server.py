@@ -2,7 +2,6 @@ from flask import Flask, render_template
 from datetime import date
 from Backend.main import get_portfolio_summary
 import json
-import requests
 
 def load_data_from_json(file_path):
     with open(file_path, 'r') as json_file:
