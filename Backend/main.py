@@ -1,7 +1,9 @@
-import yfinance as yf
-import csv
+import robin_stocks.robinhood as rs
 import matplotlib.pyplot as plt
+import csv
 import json
+
+
 
 def load_data_from_json(file_path):
     with open(file_path, 'r') as json_file:
@@ -45,37 +47,35 @@ def generate_pie_chart(data, labels):
     # plt.show()  # Directly show the plot (use this if you want to display it in the Flask app).
     plt.close()
 
-def get_portfolio_summary(portfolio):
-    total_value = 0
-    adjusted_contribution = []
-    
-    for symbol, quantity in portfolio.items():
-        # Fetch stock data from Yahoo Finance
-        stock = yf.Ticker(symbol)
-        current_price = stock.history(period='1d')['Close'].iloc[-1]
-        stock_value = current_price * quantity
-        total_value += stock_value
-        
-        # Note the total market value of every specific stock
-        adjusted_contribution.append(stock_value)
-    
-    # Calculate overall return
-    # Here you can calculate returns based on initial investment, cost basis, etc.
-    overall_return = 0  # Placeholder for demonstration
-
-    return {
-        'Total Value': total_value,
-        'Adjusted_contribution': adjusted_contribution,
-        'Overall Return': overall_return
-    }
-
-data = load_data_from_json('data.json')
-tickers = data['tickers']
-amounts = data['amount']
-
-portfolio = {label: value for label, value in zip(tickers, amounts)}
-
-summary = get_portfolio_summary(portfolio)
-adjusted_contribution = summary.get('Adjusted_contribution')
 
 generate_pie_chart(adjusted_contribution, tickers)
+
+# Get login credentials from environment variables
+#robinhood_username = os.getenv('ROBINHOOD_USERNAME')
+#robinhood_password = os.getenv('ROBINHOOD_PASSWORD')
+
+#if not robinhood_username or not robinhood_password:
+#    raise ValueError("Please set the ROBINHOOD_USERNAME and ROBINHOOD_PASSWORD environment variables.")
+
+# Login to Robinhood
+#login = r.login(robinhood_username, robinhood_password)
+
+# Get current holdings
+#holdings = r.build_holdings()
+
+# Print holdings
+#for symbol, data in holdings.items():
+#    print(f"Symbol: {symbol}, Quantity: {data['quantity']}, Average Price: {data['average_buy_price']}")
+
+# Log in to Robinhood
+rs.login(username="Your Email", password="Your Password")
+
+# Get your current holdings
+holdings = rs.build_holdings()
+
+# Print your holdings
+for stock, data in holdings.items():
+    print(stock, data)
+
+# Log out
+rs.logout()
