@@ -1,43 +1,58 @@
 from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
+import sqlite3
 from datetime import date
-from Backend.main import get_portfolio_summary # <---- Remove from this file. Should be a Backend thing
 import json
-
-# Should be switched with function to pull info from SQL Database
-def load_data_from_json(file_path):
-    with open(file_path, 'r') as json_file:
-        data = json.load(json_file)
-    return data
 
 # Initializing Flask app
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'
-db = SQLAlchemy(app)
+
+# Function to connect to the SQLite database
+def connect_db():
+    return sqlite3.connect('instance/bills.db')
+
+def read_equity_from_json(json_file):
+    with open(json_file, 'r') as f:
+        data = json.load(f)
+    
+    equity_dict = {}
+    for stock, info in data.items():
+        equity_dict[info['name']] = float(info['equity'])
+    
+    return equity_dict
 
 # Default route 
 @app.route('/')
 def home():
-    data = load_data_from_json('data.json')
+    data = read_equity_from_json('Data/holdings.json')
+    total_value = sum(int(value) for value in data.values())
 
-    tickers = data['tickers']
-    amounts = data['amount']
-    portfolio = {label: value for label, value in zip(tickers, amounts)}
-
-    summary = get_portfolio_summary(portfolio)
-    total_value = summary.get('Total Value')
-    dynamic_dict_data = {                    # ----------------------------------------------------------------
-        'Checking': '----',                  #  TODO
-        'Savings': '----',                   #  1. Dont love this. Probably should move most of this to back-
-        'Investment': round(total_value, 2)  #     end file. Want to keep only POST/GET requests in this sections.
-    }                                        #
-    goal_dict = {                            #
-        'Car': '----',                       #
-        'House': '----',                     #
-        'Travel': '----'                     #
-    }                                        # -----------------------------------------------------------------
     today = date.today().strftime("%b-%d-%Y")
-    return render_template("index.html", spy=total_value,  dynamic_dict=dynamic_dict_data, goals=goal_dict, current_date=today) # <- Way too long?
+    return render_template("index.html", spy=total_value, current_date=today)
+
+# Route to display list of bills
+@app.route('/bills')
+def display_bills():
+    # Connect to the database
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    # Retrieve bills data from the database
+    cursor.execute('SELECT name, amount_monthly FROM bills')
+    bills = cursor.fetchall()
+
+    # Calculate days remaining for each bill
+    bills_with_days_remaining = []
+    for bill in bills:
+        name, amount_monthly = bill
+        cursor.execute("SELECT strftime('%s', 'now') - strftime('%s', 'now', 'start of month', '+1 month', '-1 day') AS days_remaining")
+        days_remaining = cursor.fetchone()[0]
+        bills_with_days_remaining.append((name, amount_monthly, days_remaining))
+
+    # Close database connection
+    conn.close()
+
+    return render_template('bills.html', bills=bills_with_days_remaining)
 
 if __name__ == '__main__':
+    # Create the table
     app.run(debug=True)

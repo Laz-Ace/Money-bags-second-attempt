@@ -7,39 +7,13 @@
     <title>I got that Schmoney</title>
 </head>
 <body>
-    <h1>Portfolio overview: {{ "{:.2f}".format(spy) }}</h1>
+    <h1>Portfolio overview: ${{ spy }}</h1>
     <div class="container">
         <img src="{{ url_for('static', filename='pie_chart.png') }}" alt="Data not found">
-            <div class="progress">
-                <h1>Accounts</h1>
-                
-                <div class="accounts">
-                    <div class="row">
-                        <ul class="dynamic-list">
-                            {% for key, value in dynamic_dict.items() %}
-                                <li>
-                                    <h2>{{ key }}</h2>
-                                    <h3>$ {{ value }}</h3>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="row">
-                        <ul class="dynamic-list">
-                            {% for key, value in goals.items() %}
-                                <li>
-                                    <h2>{{ key }}</h2>
-                                    <h3>$ {{ value }}</h3>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
+            <div class="progress">            
             </div>
         </div>
     </div>
-    <h1>Dynamic List Example</h1>
-    <!-- Add a class to the ul tag for styling -->
 
 </body>
 <footer>
