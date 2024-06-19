@@ -53,6 +53,10 @@ def display_bills():
 
     return render_template('bills.html', bills=bills_with_days_remaining)
 
+
+@app.route('/cal')
+def calendar():
+    return render_template('cal.html')
+
 if __name__ == '__main__':
-    # Create the table
     app.run(debug=True)
